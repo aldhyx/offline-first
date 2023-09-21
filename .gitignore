@@ -1,4 +1,6 @@
 node_modules
 build
+dist
 npm-debug.log
-pointless_change
+.env
+.env.dev
