@@ -1,19 +1,25 @@
 import CONFIG from '../globals/config';
 
 const CacheHelper = {
-  async _openCache() {
-    return caches.open(CONFIG.CACHE_NAME);
+  /** @param {string} name */
+  async _openCache(name) {
+    return caches.open(name);
   },
+  /** @param {string[]} requests */
   async cachingAppShell(requests) {
-    const cache = await this._openCache();
-    cache.addAll(requests);
+    const cache = await this._openCache(CONFIG.CACHE_GENERAL);
+    return cache.addAll(requests);
   },
   async deleteOldCache() {
     const cacheNames = await caches.keys();
+
     cacheNames.forEach((name) => {
-      if (name !== CONFIG.CACHE_NAME) caches.delete(name);
+      if (name !== CONFIG.CACHE_GENERAL || name !== CONFIG.CACHE_IMAGE) {
+        caches.delete(name);
+      }
     });
   },
+
   async revalidateCache(request) {
     const response = await caches.match(request);
 
@@ -26,22 +32,24 @@ const CacheHelper = {
   },
   async _fetchRequest(request) {
     const response = await fetch(request);
-
-    if (!response || response.status !== 200) return response;
-
-    await this._addCache(request);
+    await this._addCache(request, response.clone());
     return response;
   },
-  async _addCache(request) {
+  async _addCache(request, response) {
     const requestUrl = new URL(request.url);
 
     if (
       requestUrl.origin === location.origin ||
-      requestUrl.origin === 'https://api.themoviedb.org' ||
-      requestUrl.origin === 'https://fonts.gstatic.com'
+      requestUrl.origin === CONFIG.BASE_URL_ORIGIN ||
+      requestUrl.origin === CONFIG.FONT_URL_ORIGIN
     ) {
-      const cache = await this._openCache();
+      const cache = await this._openCache(CONFIG.CACHE_GENERAL);
       cache.add(request);
+    }
+
+    if (requestUrl.origin === CONFIG.BASE_IMAGE_URL_ORIGIN) {
+      const cache = await this._openCache(CONFIG.CACHE_IMAGE);
+      cache.put(request, response);
     }
   },
 };
