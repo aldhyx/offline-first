@@ -6,8 +6,6 @@ const CONFIG = {
   BASE_IMAGE_URL_ORIGIN: 'https://image.tmdb.org',
   FONT_URL_ORIGIN: 'https://fonts.gstatic.com',
   DEFAULT_LANGUAGE: 'en-us',
-  CACHE_GENERAL: 'GENERAL-RESOURCES-V1 ',
-  CACHE_IMAGE: 'IMAGE-RESOURCES-V1',
 };
 
 export default CONFIG;
