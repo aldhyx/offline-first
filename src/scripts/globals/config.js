@@ -8,6 +8,10 @@ const CONFIG = {
   DEFAULT_LANGUAGE: 'en-us',
   CACHE_GENERAL: 'GENERAL-RESOURCES-V1 ',
   CACHE_IMAGE: 'IMAGE-RESOURCES-V1',
+
+  DATABASE_NAME: 'movie-catalogue-database',
+  DATABASE_VERSION: 1,
+  OBJECT_STORE_NAME: 'movies',
 };
 
 export default CONFIG;
