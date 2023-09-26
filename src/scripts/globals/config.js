@@ -12,6 +12,8 @@ const CONFIG = {
   DATABASE_NAME: 'movie-catalogue-database',
   DATABASE_VERSION: 1,
   OBJECT_STORE_NAME: 'movies',
+
+  WEB_SOCKET_SERVER: process.env.WEB_SOCKET_SERVER,
 };
 
 export default CONFIG;
