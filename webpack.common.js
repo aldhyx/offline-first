@@ -40,24 +40,9 @@ module.exports = {
         },
       ],
     }),
-    new WorkboxWebpackPlugin.GenerateSW({
-      swDest: './sw.bundle-wb.js',
-      runtimeCaching: [
-        {
-          urlPattern: ({ url }) => url.href.startsWith('https://api.themoviedb.org/3/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'themoviedb-api',
-          },
-        },
-        {
-          urlPattern: ({ url }) => url.href.startsWith('https://image.tmdb.org/t/p/w500/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'themoviedb-image-api',
-          },
-        },
-      ],
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: path.resolve(__dirname, 'src/scripts/sw.js'),
+      swDest: './sw.bundle.js',
     }),
   ],
 };
